@@ -13,9 +13,9 @@ require('chai')
   .use(require('chai-as-promised'))
   .should()
 
-  // owner: person who deployed dai token to network
 contract('TokenFarm', ([owner, investor]) => {
   // write tests here, trying to replicate migrations
+  // owner: person who deployed dai token to network
   let daiToken, dappToken, tokenFarm
 
   before(async () => {
@@ -54,6 +54,30 @@ contract('TokenFarm', ([owner, investor]) => {
     it('contract has tokens transferred', async () => {
       let balance = await dappToken.balanceOf(tokenFarm.address)
       assert.equal(balance, tokens('1000000'))
+    })
+  })
+
+  describe('Farming tokens', async () => {
+    it('rewards investors for staking mDai tokens', async () => {
+      let result
+      result = await daiToken.balanceOf(investor)
+      assert.equal(result.toString(), tokens('100'), 'investor mDai balance correct before staking')
+
+      // approving is done in test only, and in frontend app
+      await daiToken.approve(tokenFarm.address, tokens('100'), { from: investor })
+      await tokenFarm.stakeTokens(tokens('100'), { from: investor })
+
+      result = await daiToken.balanceOf(investor)
+      assert.equal(result.toString(), tokens('0'), 'investor mDai balance correct after staking')
+
+      result = await daiToken.balanceOf(tokenFarm.address)
+      assert.equal(result.toString(), tokens('100'), 'Token Farm mDai balance correct after staking')
+
+      result = await tokenFarm.stakingBalance(investor)
+      assert.equal(result.toString(), tokens('100'), 'investor staking balance correct after staking')
+
+      result = await tokenFarm.isStaking(investor)
+      assert.equal(result, true, 'investor staking status correct after staking')
     })
   })
 })
