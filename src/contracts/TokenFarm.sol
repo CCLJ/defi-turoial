@@ -57,7 +57,7 @@ contract TokenFarm {
         }
     }
 
-    // 3. Unstake tokens (withdrawal)
+    // 3. Unstake tokens (withdrawal) give back dai tokens
     function unstakeTokens() public {
         uint balance = stakingBalance[msg.sender];
         require(balance > 0, "staking balance must be greater than 0");
