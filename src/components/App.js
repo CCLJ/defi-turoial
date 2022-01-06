@@ -7,6 +7,8 @@ import Navbar from './Navbar'
 import Main from './Main'
 import './App.css'
 
+// tutorial: https://www.youtube.com/watch?v=CgXQC4dbGUE
+
 class App extends Component {
   constructor(props) {
     super(props)
