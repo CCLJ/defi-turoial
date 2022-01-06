@@ -36,7 +36,7 @@ class Main extends Component {
               <div>
                 <label className="float-left"><b>Stake Tokens</b></label>
                 <span className="float-right text-muted">
-                  Balance: {window.web3.utils.fromWei(this.props.daiTokenBalance, 'Ether')}
+                  Balance: {window.web3.utils.fromWei(this.props.daiTokenBalance, 'Ether')} mDai
                 </span>
               </div>
               <div className="input-group mb-4">

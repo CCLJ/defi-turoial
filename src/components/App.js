@@ -8,6 +8,19 @@ import Main from './Main'
 import './App.css'
 
 class App extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      account: '0x0',
+      daiToken: {},
+      dappToken: {},
+      tokenFarm: {},
+      daiTokenBalance: '0',
+      dappTokenBalance: '0',
+      stakingBalance: '0',
+      loading: true
+    }
+  }
 
   async componentWillMount() {
     await this.loadWeb3()
@@ -21,7 +34,6 @@ class App extends Component {
     this.setState({ account: accounts[0] })
 
     const networkId = await web3.eth.net.getId()
-
     // Load DaiToken
     const daiTokenData = DaiToken.networks[networkId]
     if(daiTokenData) {
@@ -85,20 +97,6 @@ class App extends Component {
     this.state.tokenFarm.methods.unstakeTokens().send({ from: this.state.account }).on('transactionHash', (hash) => {
       this.setState({ loading: false })
     })
-  }
-
-  constructor(props) {
-    super(props)
-    this.state = {
-      account: '0x0',
-      daiToken: {},
-      dappToken: {},
-      tokenFarm: {},
-      daiTokenBalance: '0',
-      dappTokenBalance: '0',
-      stakingBalance: '0',
-      loading: true
-    }
   }
 
   render() {
